@@ -11,10 +11,12 @@ import PrivateRoute from "./utils/PrivateRoute";
 import RootLayout from "./layouts/RootLayout";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import NotFound from "./pages/NotFound/NotFound";
-import ConnectWallet from "./pages/ConnectWallet/ConnectWallet";
+import ConnectWallet from "./pages/ConnectWalletHome/ConnectWalletHome";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PersistConnectWallet from "./pages/PersistConnectWallet/PersistConnectWallet";
+import ConnectWalletHome from "./pages/ConnectWalletHome/ConnectWalletHome";
+import CreateProfile from "./pages/CreateProfile/CreateProfile";
 
 let thirdwebClientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID;
 let goerliRpc = import.meta.env.VITE_GOERLI_RPC;
@@ -68,12 +70,12 @@ const AppRoutes = () => {
                   />
                 }
               >
-                <Route path="/create-profile" element={<UserProfile />} />
+                <Route path="/create-profile" element={<CreateProfile />} />
               </Route>
             </Route>
 
             {/* PUBLIC ROUTES */}
-            <Route index path="/" element={<ConnectWallet />} />
+            <Route index path="/" element={<ConnectWalletHome />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/yetki-yok" element={<Unauthorized />} />
           </Route>
