@@ -11,7 +11,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 import RootLayout from "./layouts/RootLayout";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import NotFound from "./pages/NotFound/NotFound";
-import ConnectWallet from "./pages/ConnectWalletHome/ConnectWalletHome";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PersistConnectWallet from "./pages/PersistConnectWallet/PersistConnectWallet";
@@ -30,14 +29,14 @@ const pageVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.23, // Adjust the duration value to control the speed of the animation
+      duration: 0.23,
     },
   },
   exit: {
     opacity: 0.5,
     x: "-100vw",
     transition: {
-      duration: 0.23, // Adjust the duration value to control the speed of the animation
+      duration: 0.23,
     },
   },
 };
@@ -49,33 +48,22 @@ const AppRoutes = () => {
     <AnimatePresence mode="wait">
       <motion.div key={location.pathname} initial="initial" animate="animate" exit="exit" variants={pageVariants}>
         <Routes location={location}>
-          <Route path="/" element={<RootLayout />}>
-            <Route element={<PersistConnectWallet />}>
-              <Route
-                element={
-                  <PrivateRoute
-                  // if connected and have profile
-                  />
-                }
-              >
-                <Route path="/showcase" element={<Home />} />
-                <Route path="/showcase/:propertyId" element={<Home />} />
-                <Route path="/profile" element={<UserProfile />} />
-              </Route>
-
-              <Route
-                element={
-                  <PrivateRoute
-                  // if connected and doesnt have profile
-                  />
-                }
-              >
-                <Route path="/create-profile" element={<CreateProfile />} />
-              </Route>
+          <Route index element={<ConnectWalletHome />} />
+          <Route path="/">
+            <Route path="/create-profile" element={<CreateProfile />} />
+            <Route
+              element={
+                <PrivateRoute
+                // if connected and have profile
+                />
+              }
+            >
+              <Route path="/showcase" element={<Home />} />
+              <Route path="/showcase/:propertyId" element={<Home />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Route>
 
             {/* PUBLIC ROUTES */}
-            <Route index path="/" element={<ConnectWalletHome />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/yetki-yok" element={<Unauthorized />} />
           </Route>
@@ -85,7 +73,7 @@ const AppRoutes = () => {
   );
 };
 
-function App() {
+const App = () => {
   return (
     <>
       <Helmet>
@@ -120,6 +108,6 @@ function App() {
       </ThirdwebProvider>
     </>
   );
-}
+};
 
 export default App;

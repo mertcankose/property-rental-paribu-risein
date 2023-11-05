@@ -1,15 +1,24 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useContextWallet } from "../context/WalletContext";
 
 const PrivateRoute = () => {
-  // wallet ve profile oluşumuna bakılacak
+  const location = useLocation();
 
-  return true ? (
-    <Outlet />
-  ) : false ? ( //changed from user to accessToken to persist login after refresh
-    <Navigate to="/yetki-yok" state={{ from: location }} replace />
-  ) : (
-    <Navigate to="/giris" state={{ from: location }} replace />
-  );
+  const { address, isUserAddressEmptyData } = useContextWallet();
+
+  const isConnected = !!address;
+  const isRegistered = !isUserAddressEmptyData;
+
+  console.log("isConnected: ", isConnected);
+  console.log("isRegistered: ", isRegistered);
+
+  if (isConnected && isRegistered) {
+    return <Outlet />;
+  }
+
+  const redirectTo = isConnected ? "/create-profile" : "/";
+
+  return <Navigate to={redirectTo} state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;
