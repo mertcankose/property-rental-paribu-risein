@@ -8,12 +8,10 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import PrivateRoute from "./utils/PrivateRoute";
-import RootLayout from "./layouts/RootLayout";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import NotFound from "./pages/NotFound/NotFound";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
-import PersistConnectWallet from "./pages/PersistConnectWallet/PersistConnectWallet";
 import ConnectWalletHome from "./pages/ConnectWalletHome/ConnectWalletHome";
 import CreateProfile from "./pages/CreateProfile/CreateProfile";
 

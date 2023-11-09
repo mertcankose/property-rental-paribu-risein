@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 const PersistConnectWallet = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
 };

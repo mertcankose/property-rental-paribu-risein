@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import moment from "moment";
 import { errorMessage, successMessage } from "../../helpers/toast";
 import MiniLoading from "../../components/Loading/MiniLoading";
+import Card from "../../components/Card/Card";
 
 const customStyles = {
   overlay: {
@@ -30,8 +31,29 @@ interface IHome {
 }
 
 const Home: FC<IHome> = ({ className, ...props }) => {
-  const { userData, createPropertyMutateAsync, createPropertyIsLaoding, createPropertyError, createPropertyIsSuccess } =
-    useContextWallet();
+  const {
+    userData,
+    holderPropertiesData,
+    holderPropertiesIsLoading,
+    holderPropertiesError,
+    holderPropertiesInTheAdData,
+    holderPropertiesInTheAdIsLoading,
+    holderPropertiesInTheAdError,
+    tenantPropertiesData,
+    tenantPropertiesIsLoading,
+    tenantPropertiesError,
+    allPropertiesInTheAdData,
+    allPropertiesInTheAdIsLoading,
+    allPropertiesInTheAdError,
+    createPropertyMutateAsync,
+    createPropertyIsLaoding,
+    createPropertyError,
+    createPropertyIsSuccess,
+    putPropertyMutateAsync,
+    putPropertyError,
+    requestToBecomeTenantMutateAsync,
+    requestToBecomeTenantError,
+  } = useContextWallet();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [propertyValues, setPropertyValues] = useState({
     name: "",
@@ -47,6 +69,12 @@ const Home: FC<IHome> = ({ className, ...props }) => {
   }, [createPropertyError]);
 
   useEffect(() => {
+    if (requestToBecomeTenantError) {
+      errorMessage(requestToBecomeTenantError.reason.toUpperCase());
+    }
+  }, [requestToBecomeTenantError]);
+
+  useEffect(() => {
     if (createPropertyIsSuccess) {
       successMessage("Successfully created");
       closeModal();
@@ -58,6 +86,12 @@ const Home: FC<IHome> = ({ className, ...props }) => {
       });
     }
   }, [createPropertyIsSuccess]);
+
+  useEffect(() => {
+    if (putPropertyError) {
+      errorMessage(putPropertyError.reason);
+    }
+  }, [putPropertyError]);
 
   const isHolder = () => {
     if (userData.userType == 0) {
@@ -104,6 +138,18 @@ const Home: FC<IHome> = ({ className, ...props }) => {
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const putAd = async (propertyId: any) => {
+    let response = await putPropertyMutateAsync({
+      args: [propertyId, Math.floor(Date.now() / 1000)],
+    });
+  };
+
+  const requestTenant = async (propertyId: any) => {
+    let response = await requestToBecomeTenantMutateAsync({
+      args: [propertyId],
+    });
   };
 
   return (
@@ -164,13 +210,23 @@ const Home: FC<IHome> = ({ className, ...props }) => {
       <div className="flex flex-col gap-8 min-h-screen max-w-5xl mx-auto">
         {isHolder() && (
           <div className="flex flex-col">
-            <div className="flex items-center gap-4 text-2xl">
+            <div className="flex items-center gap-4 text-2xl mb-4">
               <h3 className="underline">MÜLKLERİM</h3>
               <button onClick={openModal} className="border border-black justify-center items-center rounded-full w-12 h-12">
                 +
               </button>
             </div>
-            {/* list */}
+            {holderPropertiesIsLoading && <MiniLoading />}
+            {holderPropertiesError && <p className="text-red-500">{holderPropertiesError.reason}</p>}
+            {holderPropertiesData.map((item: any) => (
+              <Card
+                item={item}
+                type="holderProperties"
+                putAd={(id: any) => {
+                  putAd(id);
+                }}
+              />
+            ))}
           </div>
         )}
         {isHolder() && (
@@ -178,12 +234,41 @@ const Home: FC<IHome> = ({ className, ...props }) => {
             <div className="flex items-center gap-4 text-2xl">
               <h3 className="underline">İLANA KOYDUKLARIM</h3>
             </div>
-            {/* list */}
+            {holderPropertiesInTheAdIsLoading && <MiniLoading />}
+            {holderPropertiesInTheAdError && <p className="text-red-500">{holderPropertiesError.reason}</p>}
+            {holderPropertiesInTheAdData.map((item: any) => (
+              <Card item={item} type="holderAd" />
+            ))}
+          </div>
+        )}
+        {!isHolder() && (
+          <div className="flex flex-col">
+            <div className="flex items-center gap-4 text-2xl">
+              <h3 className="underline">KİRALADIKLARIM</h3>
+            </div>
+            {tenantPropertiesIsLoading && <MiniLoading />}
+            {tenantPropertiesError && <p className="text-red-500">{holderPropertiesError.reason}</p>}
+            {tenantPropertiesData.map((item: any) => (
+              <Card item={item} type="tenantProperties" />
+            ))}
           </div>
         )}
 
-        <div className="flex flex-col text-2xl">
-          <h3 className="underline">İLANDAKİLER</h3>
+        <div className="flex flex-col">
+          <div className="flex items-center gap-4 text-2xl">
+            <h3 className="underline">İLANDAKİLER</h3>
+          </div>
+          {allPropertiesInTheAdIsLoading && <MiniLoading />}
+          {allPropertiesInTheAdError && <p className="text-red-500">{holderPropertiesError.reason}</p>}
+          {allPropertiesInTheAdData.map((item: any) => (
+            <Card
+              item={item}
+              type="allProperties"
+              requestTenant={(id: any) => {
+                requestTenant(id);
+              }}
+            />
+          ))}
         </div>
       </div>
     </div>

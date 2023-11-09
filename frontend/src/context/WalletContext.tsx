@@ -1,5 +1,5 @@
 import { createContext, ReactNode, FC, useContext } from "react";
-import { useContract, useContractRead, useContractWrite, useAddress, Web3Button } from "@thirdweb-dev/react";
+import { useContract, useContractRead, useContractWrite, useAddress } from "@thirdweb-dev/react";
 import CONTRACT_ABI from "../assets/sources/propertyRentalAbi.json";
 
 interface WalletContextType {
@@ -25,6 +25,22 @@ interface WalletContextType {
   createPropertyIsLaoding: boolean;
   createPropertyError: any;
   createPropertyIsSuccess: boolean;
+  // mülk sahibinin mülkleri
+  holderPropertiesData: any;
+  holderPropertiesIsLoading: boolean;
+  holderPropertiesError: any;
+  // mülk sahibinin ilandaki mülkleri
+  holderPropertiesInTheAdData: any;
+  holderPropertiesInTheAdIsLoading: boolean;
+  holderPropertiesInTheAdError: any;
+  // ilandaki mülkler
+  allPropertiesInTheAdData: any;
+  allPropertiesInTheAdIsLoading: boolean;
+  allPropertiesInTheAdError: any;
+  // kiracının kiraladığı mülkler
+  tenantPropertiesData: any;
+  tenantPropertiesIsLoading: boolean;
+  tenantPropertiesError: any;
   // mülkü ilana koy
   putPropertyMutateAsync: any;
   putPropertyIsLoading: boolean;
@@ -69,6 +85,34 @@ export const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   // getUser | args: (address)
   const { data: userData, isLoading: userIsLoading, error: userError } = useContractRead(contract, "getUser", [address]);
+
+  // holderProperties | args: (address)
+  const {
+    data: holderPropertiesData,
+    isLoading: holderPropertiesIsLoading,
+    error: holderPropertiesError,
+  } = useContractRead(contract, "getHolderProperties", [address]);
+
+  // holderPropertiesInTheAd | args: (address)
+  const {
+    data: holderPropertiesInTheAdData,
+    isLoading: holderPropertiesInTheAdIsLoading,
+    error: holderPropertiesInTheAdError,
+  } = useContractRead(contract, "getHolderPropertiesInTheAd", [address]);
+
+  // tenantProperties | args: (address)
+  const {
+    data: tenantPropertiesData,
+    isLoading: tenantPropertiesIsLoading,
+    error: tenantPropertiesError,
+  } = useContractRead(contract, "getTenantProperties", [address]);
+
+  // allPropertiesInTheAd | args: ()
+  const {
+    data: allPropertiesInTheAdData,
+    isLoading: allPropertiesInTheAdIsLoading,
+    error: allPropertiesInTheAdError,
+  } = useContractRead(contract, "getAllPropertiesInTheAd");
 
   // registerSystem | args: (description, userType(0,1))
   const {
@@ -153,6 +197,22 @@ export const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => {
         createPropertyIsLaoding,
         createPropertyError,
         createPropertyIsSuccess,
+        // mülk sahibinin mülkleri
+        holderPropertiesData,
+        holderPropertiesIsLoading,
+        holderPropertiesError,
+        // mülk sahibinin ilandaki mülkleri
+        holderPropertiesInTheAdData,
+        holderPropertiesInTheAdIsLoading,
+        holderPropertiesInTheAdError,
+        // kiracıların kiraladığı mülkler
+        tenantPropertiesData,
+        tenantPropertiesIsLoading,
+        tenantPropertiesError,
+        // ilandaki mülkler,
+        allPropertiesInTheAdData,
+        allPropertiesInTheAdIsLoading,
+        allPropertiesInTheAdError,
         // mülkü ilana koy
         putPropertyMutateAsync,
         putPropertyIsLoading,

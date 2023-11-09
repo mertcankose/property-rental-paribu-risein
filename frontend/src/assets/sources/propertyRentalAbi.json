@@ -2,30 +2,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "_complaintId",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bool",
-				"name": "_isValid",
-				"type": "bool"
-			}
-		],
-		"name": "controlComplaint",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "string",
 				"name": "_name",
 				"type": "string"
@@ -77,35 +53,6 @@
 		],
 		"name": "finishRentalContract",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_propertyId",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_reason",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_createdAt",
-				"type": "uint256"
-			}
-		],
-		"name": "makeComplaint",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -405,35 +352,9 @@
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "complaints",
+		"inputs": [],
+		"name": "getAllPropertiesInTheAd",
 		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "id",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "complainantAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "reportedAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "reason",
-				"type": "string"
-			},
 			{
 				"components": [
 					{
@@ -492,19 +413,9 @@
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct PropertyRental.Property",
-				"name": "property",
-				"type": "tuple"
-			},
-			{
-				"internalType": "bool",
-				"name": "isControlled",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "isValid",
-				"type": "bool"
+				"internalType": "struct PropertyRental.Property[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -513,33 +424,13 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
+				"internalType": "address",
+				"name": "_holderUserAddress",
+				"type": "address"
 			}
 		],
-		"name": "complaintsMap",
+		"name": "getHolderProperties",
 		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "id",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "complainantAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "reportedAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "reason",
-				"type": "string"
-			},
 			{
 				"components": [
 					{
@@ -598,19 +489,161 @@
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct PropertyRental.Property",
-				"name": "property",
-				"type": "tuple"
-			},
+				"internalType": "struct PropertyRental.Property[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
-				"internalType": "bool",
-				"name": "isControlled",
-				"type": "bool"
-			},
+				"internalType": "address",
+				"name": "_holderUserAddress",
+				"type": "address"
+			}
+		],
+		"name": "getHolderPropertiesInTheAd",
+		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "isValid",
-				"type": "bool"
+				"components": [
+					{
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "holderAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tenantAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "enum PropertyRental.PropertyType",
+						"name": "propertyType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isInAd",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRented",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRequestToEnd",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "createdAt",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "putAdAt",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct PropertyRental.Property[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tenantUserAddress",
+				"type": "address"
+			}
+		],
+		"name": "getTenantProperties",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "holderAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tenantAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "enum PropertyRental.PropertyType",
+						"name": "propertyType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isInAd",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRented",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRequestToEnd",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "createdAt",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "putAdAt",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct PropertyRental.Property[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -652,6 +685,80 @@
 				"internalType": "struct PropertyRental.User",
 				"name": "",
 				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "holderPropertiesInTheAd",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "holderAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "tenantAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "enum PropertyRental.PropertyType",
+				"name": "propertyType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bool",
+				"name": "isInAd",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRented",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRequestToEnd",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "createdAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "putAdAt",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
