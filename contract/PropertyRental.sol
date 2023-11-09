@@ -116,8 +116,10 @@ contract PropertyRental is Ownable, ReentrancyGuard, Pausable {
     mapping(bytes32 => RentalContract) public rentalContractsMap;
 
     // complaints
+    /*
     Complaint[] public complaints;
     mapping(bytes32 => Complaint) public complaintsMap;
+    */
 
     // events
     // mülk kaydetme eventi
@@ -222,6 +224,11 @@ contract PropertyRental is Ownable, ReentrancyGuard, Pausable {
             createdAt: _createdAt,
             putAdAt: _createdAt
         });
+
+        if (_isInAd) {
+            propertiesInTheAd.push(property);
+        }
+
         properties.push(property);
         propertiesMap[_id] = property;
         holderPropertiesMap[msg.sender].push(property);
@@ -330,29 +337,20 @@ contract PropertyRental is Ownable, ReentrancyGuard, Pausable {
     }
 
     // şikayet et (mülk sahibi veya kiracı)
-    function makeComplaint(
-        bytes32 _propertyId,
-        string memory _reason,
-        uint256 _createdAt
-    ) external nonReentrant returns (bool) {
+    /*
+    function makeComplaint(bytes32 _propertyId, string memory _reason, uint256 _createdAt) external nonReentrant returns(bool){
         Property memory _currentProperty = propertiesMap[_propertyId];
-        require(
-            _currentProperty.holderAddress == address(msg.sender) ||
-                _currentProperty.tenantAddress == msg.sender,
-            "lack of authorize"
-        );
-        bytes32 _id = keccak256(
-            abi.encode(_propertyId, address(msg.sender), _createdAt)
-        );
-
+        require(_currentProperty.holderAddress == address(msg.sender) || _currentProperty.tenantAddress == msg.sender, "lack of authorize");
+        bytes32 _id =  keccak256(abi.encode(_propertyId, address(msg.sender), _createdAt));
+        
         Complaint memory complaint = Complaint({
             id: _id,
             complainantAddress: address(msg.sender),
             reportedAddress: _currentProperty.holderAddress,
             reason: _reason,
             property: _currentProperty,
-            isControlled: false,
-            isValid: false
+            isControlled:false,
+            isValid:false
         });
 
         complaints.push(complaint);
@@ -360,22 +358,22 @@ contract PropertyRental is Ownable, ReentrancyGuard, Pausable {
 
         return true;
     }
+    */
 
     // şikayeti kontrol et (şikayetin geçerlilik kontrolünü sağla, cezalı listesine koy veya şikayeti aktiflikten çıkar - admin)
-    function controlComplaint(
-        bytes32 _complaintId,
-        bool _isValid
-    ) external onlyOwner returns (bool) {
+    /*
+    function controlComplaint(bytes32 _complaintId, bool _isValid) external onlyOwner returns(bool) {
         Complaint storage _currentComplaint = complaintsMap[_complaintId];
         User storage _currentUser = usersMap[_currentComplaint.reportedAddress];
 
         _currentComplaint.isControlled = true;
         _currentComplaint.isValid = _isValid;
 
-        if (_isValid) {
+        if(_isValid) {
             _currentUser.isPenalized = true;
         }
-
+        
         return true;
     }
+    */
 }
