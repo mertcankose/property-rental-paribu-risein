@@ -141,13 +141,13 @@ const Home: FC<IHome> = ({ className, ...props }) => {
   };
 
   const putAd = async (propertyId: any) => {
-    let response = await putPropertyMutateAsync({
+    await putPropertyMutateAsync({
       args: [propertyId, Math.floor(Date.now() / 1000)],
     });
   };
 
   const requestTenant = async (propertyId: any) => {
-    let response = await requestToBecomeTenantMutateAsync({
+    await requestToBecomeTenantMutateAsync({
       args: [propertyId],
     });
   };
